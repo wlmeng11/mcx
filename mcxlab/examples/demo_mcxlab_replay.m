@@ -6,6 +6,7 @@
 % This file is part of Monte Carlo eXtreme (MCX) URL:http://mcx.sf.net
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+clear; clc; close all;
 clear cfg cfgs
 cfg.nphoton=1e8;
 cfg.vol=uint8(ones(60,60,60));
@@ -23,7 +24,7 @@ cfg.tstep=5e-10;
 cfg.detpos=[15 30 0 2];
 %cfg.savedetflag='dsp';
 [flux, detp, vol, seeds]=mcxlab(cfg);
-
+%%
 newcfg=cfg;
 newcfg.seed=seeds.data;
 newcfg.outputtype='jacobian';
@@ -31,10 +32,15 @@ newcfg.detphotons=detp.data;
 [flux2, detp2, vol2, seeds2]=mcxlab(newcfg);
 jac=sum(flux2.data,4);
 imagesc(log10(abs(squeeze(jac(:,30,:)))))
+title('CW Jacobian at y=30 slice');
+axis square;
+h = colorbar;
+ylabel(h, 'log10');
 
-newcfg.outputtype='rf';
-newcfg.omega=2*pi*100e6; % 100 MHz RF modulation
-newcfg.detphotons=detp.data;
-rfjac=mcxlab(newcfg);
-jac=sum(rfjac.data,4);
-figure;imagesc(log10(abs(squeeze(jac(:,30,:)))))
+%%
+% newcfg.outputtype='rf';
+% newcfg.omega=2*pi*100e6; % 100 MHz RF modulation
+% newcfg.detphotons=detp.data;
+% rfjac=mcxlab(newcfg);
+% jac=sum(rfjac.data,4);
+% figure;imagesc(log10(abs(squeeze(jac(:,30,:)))))

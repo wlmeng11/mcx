@@ -7,6 +7,7 @@
 % This file is part of Monte Carlo eXtreme (MCX) URL:http://mcx.sf.net
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+clear; clc; close all;
 clear cfg
 cfg.nphoton=2e8;
 cfg.vol=uint8(ones(60,60,30));

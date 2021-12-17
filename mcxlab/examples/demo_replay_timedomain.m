@@ -7,6 +7,7 @@
 % This file is part of Monte Carlo eXtreme (MCX) URL:http://mcx.sf.net
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+clear; clc; close all;
 clear cfg cfgs
 cfg.nphoton=1e8;
 cfg.vol=uint8(ones(60,60,20));
@@ -36,11 +37,18 @@ newcfg.detphotons=detp.data;
 [flux2, detp2, vol2, seeds2]=mcxlab(newcfg);
 for i=1:size(flux2.data,4)
     imagesc(log10(abs(squeeze(flux2.data(30,:,:,i)))))
+    colorbar;
     title(sprintf('%d',i));
     waitforbuttonpress;
 end
-jac=sum(flux2.data,4);
-for i=1:size(jac,ndims(jac))
+jac=sum(flux2.data,4); % sum across time to get CW jacobian
+
+%%
+for i=1:size(jac,ndims(jac)) % for each detector
     subplot(1,size(jac,ndims(jac)),i);
-    imagesc(log10(abs(squeeze(jac(30,:,:,i)))))
+    imagesc(log10(abs(squeeze(jac(30,:,:,i)))));
+    title(sprintf('Detector %d', i));
+    h = colorbar;
+    ylabel(h, 'log10');
 end
+sgtitle('CW Jacobian');
